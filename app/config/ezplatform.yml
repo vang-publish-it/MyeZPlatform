@@ -1,3 +1,6 @@
+imports:
+    - { resource: image_variations.yml }
+    - { resource: views.yml }
 ezpublish:
     # HttpCache settings, By default 'local' (Symfony HttpCache Proxy), by setting it to 'http' you can point it to Varnish
     http_cache:
@@ -13,9 +16,9 @@ ezpublish:
 
     # Siteaccess configuration, with one siteaccess per default
     siteaccess:
-        list: [site, admin]
+        list: [site, admin, de, fr]
         groups:
-            site_group: [site]
+            site_group: [site, de, fr]
 
             # WARNING: Do not remove or rename this group.
             # It's used to distinguish common siteaccesses from admin ones.
@@ -28,6 +31,27 @@ ezpublish:
     # System settings, grouped by siteaccess and/or siteaccess group
     system:
         site_group:
+            # existing keys, do not change them
+            content_view:
+                #full:
+                #    blog_post:
+                #        template: 'full/blog_post.html.twig'
+                #        match:
+                #            Identifier\ContentType: [blog_post]
+                #    home_page:
+                #        template: 'full/home_page.html.twig'
+                #        match:
+                #            Id\Location: 2
+                #    ride:
+                #        template: 'full/ride.html.twig'
+                #        match:
+                #            Identifier\ContentType: 'ride'
+                #line:
+                #    ride:
+                #        template: 'line/ride.html.twig'
+                #        match:
+                #            Identifier\ContentType: 'ride'
+
             # Cache pool service, needs to be different per repository (database) on multi repository install.
             cache_service_name: '%cache_pool%'
             # These reflect the current installers, complete installation before you change them. For changing var_dir
@@ -37,7 +61,8 @@ ezpublish:
             # System languages. Note that by default, content, content types, and other data are in eng-GB locale,
             # so removing eng-GB from this list may lead to errors or content not being shown, unless you change
             # all eng-GB data to other locales first.
-            languages: [eng-GB]
+            #languages: [eng-GB]
+            languages: [eng-GB, ger-DE, fra-FR]
             content:
                 # As we by default enable EzSystemsPlatformHttpCacheBundle which is designed to expire all affected cache
                 # on changes, and as error / redirects now have separate ttl, we easier allow ttl to be greatly increased
@@ -50,7 +75,8 @@ ezpublish:
         admin_group:
             cache_service_name: '%cache_pool%'
             var_dir: var/site
-            languages: [eng-GB]
+            #languages: [eng-GB]
+            languages: [eng-GB, ger-DE, fra-FR]
             content:
                 default_ttl: '%httpcache_default_ttl%'
             http_cache:
@@ -60,6 +86,16 @@ ezpublish:
         slug_converter:
             transformation: 'urlalias_lowercase'
 
+    siteaccess:
+            list: [site, admin, de, fr]
+            groups:
+                site_group: [site, de, fr]
+
 ez_platform_standard_design:
     # makes Kernel default templates (in EzPublishCoreBundle/Resources/views) part of standard Design
     override_kernel_templates: true
+
+ezdesign :
+  design_list :
+      site_design : [ site_design ]
+      de_design : [ de_design ]
